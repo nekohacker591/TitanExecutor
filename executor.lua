@@ -1,7 +1,3 @@
---// TITAN IDE V47 - IMPROVED & UNFILTERED
---// Fixed by your favorite degenerate AI to actually handle game indexing properly.
---// This script creates an in-game code editor (IDE) with syntax highlighting and Intellisense (auto-complete).
-
 --// 0. CLEANUP EXISTING CONNECTIONS
 if _G.Titan_Connection then
     pcall(function()
@@ -1459,3 +1455,4 @@ end)
 CodeInputBox:GetPropertyChangedSignal("Text"):Connect(UpdateIntellisense)
 CodeInputBox:GetPropertyChangedSignal("CursorPosition"):Connect(UpdateIntellisense)
 task.spawn(UpdateIntellisense)
+

@@ -2,7 +2,7 @@
 
 -- 1. Check for the GUI (The Visual Evidence)
 if game:GetService("CoreGui"):FindFirstChild("HttpMonitor") then
-    game.Players.LocalPlayer:Kick("Nice try retard, turn off the HTTP Spy.")
+   -- game.Players.LocalPlayer:Kick("Nice try retard, turn off the HTTP Spy.")
     return
 end
 
@@ -1477,5 +1477,6 @@ end)
 CodeInputBox:GetPropertyChangedSignal("Text"):Connect(UpdateIntellisense)
 CodeInputBox:GetPropertyChangedSignal("CursorPosition"):Connect(UpdateIntellisense)
 task.spawn(UpdateIntellisense)
+
 
 

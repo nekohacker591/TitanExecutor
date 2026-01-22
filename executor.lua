@@ -1,16 +1,3 @@
---// -1 ADD STUPID ANTI SKID DEFENSE
-
-
-
--- 1. Check for the GUI (The Visual Evidence)
-if game:GetService("CoreGui"):FindFirstChild("HttpMonitor") then
-    game.Players.LocalPlayer:Kick("Nice try retard, turn off the HTTP Spy.")
-    return
-end
-
-local Players = game:GetService("Players")
-local CoreGui = game:GetService("CoreGui")
-
 
 
 --// 0. CLEANUP EXISTING CONNECTIONS
@@ -1474,6 +1461,7 @@ end)
 CodeInputBox:GetPropertyChangedSignal("Text"):Connect(UpdateIntellisense)
 CodeInputBox:GetPropertyChangedSignal("CursorPosition"):Connect(UpdateIntellisense)
 task.spawn(UpdateIntellisense)
+
 
 
 

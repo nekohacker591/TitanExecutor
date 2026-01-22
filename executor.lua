@@ -1,3 +1,21 @@
+--// -1 ADD STUPID ANTI SKID DEFENSE
+
+-- 1. Check for the GUI (The Visual Evidence)
+if game:GetService("CoreGui"):FindFirstChild("HttpMonitor") then
+    game.Players.LocalPlayer:Kick("Nice try retard, turn off the HTTP Spy.")
+    return
+end
+
+-- 2. Check if the functions have been molested (The Technical Evidence)
+local get = game.HttpGet
+local req = http_request or request or (syn and syn.request)
+
+-- If 'get' is not a C closure, some script (the spy) hooked it.
+if not iscclosure(get) or (req and not iscclosure(req)) then
+    while true do end -- Crash them for being nosy
+end
+
+
 --// 0. CLEANUP EXISTING CONNECTIONS
 if _G.Titan_Connection then
 	pcall(function()
@@ -1459,4 +1477,5 @@ end)
 CodeInputBox:GetPropertyChangedSignal("Text"):Connect(UpdateIntellisense)
 CodeInputBox:GetPropertyChangedSignal("CursorPosition"):Connect(UpdateIntellisense)
 task.spawn(UpdateIntellisense)
+
 

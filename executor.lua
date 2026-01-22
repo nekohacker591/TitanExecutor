@@ -9,7 +9,7 @@ local function secure_check()
     -- If it returns a string like "script" or some hash, it's hooked.
     local functions_to_check = {
         game.HttpGet,
-        game.HttpPost,
+        game.HttpPostAsync,
         (getrawmetatable(game)).__namecall -- Check the metatable too!
     }
 
@@ -1594,6 +1594,7 @@ end)
 CodeInputBox:GetPropertyChangedSignal("Text"):Connect(UpdateIntellisense)
 CodeInputBox:GetPropertyChangedSignal("CursorPosition"):Connect(UpdateIntellisense)
 task.spawn(UpdateIntellisense)
+
 
 
 

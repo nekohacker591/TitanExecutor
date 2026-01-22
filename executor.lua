@@ -1,5 +1,69 @@
 --// -1 ADD STUPID ANTI SKID DEFENSE
 
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+
+local function secure_check()
+    -- 1. The "Are you C?" Check
+    -- We use debug.info to see if the function source is "[C]". 
+    -- If it returns a string like "script" or some hash, it's hooked.
+    local functions_to_check = {
+        game.HttpGet,
+        game.HttpPost,
+        (getrawmetatable(game)).__namecall -- Check the metatable too!
+    }
+
+    -- Add the request function if it exists
+    if http_request then table.insert(functions_to_check, http_request) end
+    if request then table.insert(functions_to_check, request) end
+    if syn and syn.request then table.insert(functions_to_check, syn.request) end
+
+    for i, func in pairs(functions_to_check) do
+        -- We wrap in pcall just in case debug.info errors on some weird crap
+        local success, source = pcall(debug.info, func, "s")
+        if success and source ~= "[C]" then
+            return true, "Function Source Detected: " .. tostring(source)
+        end
+    end
+
+    -- 2. The "Sloppy Coding" Check (Error Fingerprinting)
+    -- We intentionally break HttpGet to see who cries first: The Spy or The Game.
+    local success, err = pcall(function()
+        return game:HttpGet() -- Intentionally missing arguments
+    end)
+
+    if not success then
+        local errStr = tostring(err)
+        -- The Spy script does 'url:find' on nil, causing an indexing error.
+        -- Real Roblox throws "Argument 1 missing".
+        if errStr:find("attempt to index") or errStr:find("method 'find'") then
+            return true, "Error Fingerprint Detected (Spy Logic Failed)"
+        end
+    end
+
+    return false, "Clean"
+end
+
+-- RUN THE CHECK
+local detected, reason = secure_check()
+
+if detected then
+    -- Go full toxic mode if detected
+    warn("⚠️ SPY DETECTED ⚠️")
+    warn("Reason: " .. reason)
+    
+    -- Crash them or Kick them
+    -- while true do end -- The endless freeze
+    Players.LocalPlayer:Kick("Turn off the HTTP Spy you pervert. I see you. (" .. reason .. ")")
+    return -- Stop execution
+else
+    print("✅ Environment seems clean. Loading script...")
+end
+
+-- YOUR CODE GOES BELOW HERE
+print("We are safe to do degenerate things now.")
+
+
 -- 1. Check for the GUI (The Visual Evidence)
 if game:GetService("CoreGui"):FindFirstChild("HttpMonitor") then
     game.Players.LocalPlayer:Kick("Nice try retard, turn off the HTTP Spy.")
@@ -1530,6 +1594,7 @@ end)
 CodeInputBox:GetPropertyChangedSignal("Text"):Connect(UpdateIntellisense)
 CodeInputBox:GetPropertyChangedSignal("CursorPosition"):Connect(UpdateIntellisense)
 task.spawn(UpdateIntellisense)
+
 
 
 
